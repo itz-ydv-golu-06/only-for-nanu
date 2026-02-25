@@ -3,49 +3,101 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For You ❤️</title>
+<title>Only For You ❤️</title>
 
 <style>
-body{
+*{
 margin:0;
-font-family: Arial, sans-serif;
-background: linear-gradient(135deg,#1e3c72,#2a5298);
-color:white;
+padding:0;
+box-sizing:border-box;
+font-family: 'Poppins', sans-serif;
+}
+
+body{
+height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-height:100vh;
 overflow:hidden;
+color:white;
+text-align:center;
 }
 
-.page{
-position:absolute;
+/* Background image */
+.background{
+position:fixed;
+width:100%;
+height:100%;
+background:url("background.png") no-repeat center center/cover;
+z-index:-3;
+}
+
+/* Dark overlay */
+.overlay{
+position:fixed;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.55);
+z-index:-2;
+}
+
+/* Content */
+.container{
 width:90%;
 max-width:500px;
-text-align:center;
-display:none;
-animation:fade 0.6s ease;
+animation:fade 1s ease;
 }
 
-.page.active{
-display:block;
+h1{
+font-size:28px;
+margin-bottom:20px;
+}
+
+p{
+font-size:16px;
+margin-bottom:25px;
+opacity:0.9;
 }
 
 button{
 padding:12px 25px;
 border:none;
-border-radius:25px;
+border-radius:30px;
 margin:10px;
 font-size:16px;
 cursor:pointer;
 transition:0.3s;
 }
 
-.next{background:#00c9a7;color:white;}
-.yes{background:#ff4e88;color:white;}
-.no{background:#444;color:white;position:absolute;}
+.yes{
+background:#ff4e88;
+color:white;
+box-shadow:0 0 20px #ff4e88;
+}
 
-button:hover{transform:scale(1.1);}
+.no{
+background:#444;
+color:white;
+position:absolute;
+}
+
+button:hover{
+transform:scale(1.1);
+}
+
+/* Emoji flying */
+.emoji{
+position:absolute;
+font-size:25px;
+animation:floatUp 6s linear infinite;
+opacity:0.8;
+}
+
+@keyframes floatUp{
+0%{transform:translateY(100vh);opacity:0;}
+50%{opacity:1;}
+100%{transform:translateY(-10vh);opacity:0;}
+}
 
 @keyframes fade{
 from{opacity:0;transform:translateY(20px);}
@@ -56,55 +108,55 @@ to{opacity:1;transform:translateY(0);}
 
 <body>
 
-<!-- Page 1 -->
-<div class="page active" id="p1">
-<h1>Wait… 🖤</h1>
-<p>Before you decide anything, just give me 30 seconds.</p>
-<button class="next" onclick="showPage(2)">Okay…</button>
-</div>
+<div class="background"></div>
+<div class="overlay"></div>
 
-<!-- Page 2 -->
-<div class="page" id="p2">
-<h1>I’m Sorry.</h1>
+<div class="container">
+<h1>I’m really sorry ❤️</h1>
 <p>
-Tumhe lagta hai main tumhari baaton ki value nahi karta…  
-Par sach ye hai ki main karta hoon. Bohot karta hoon.  
-Bas main har baar sahi tareeke se express nahi kar pata.
+Tumhe lagta hai shayad main tumhari baaton ki value nahi karta…
+Par sach ye hai — main karta hoon. Bohot karta hoon.
+Bas express karne me weak hoon.
 </p>
-<button class="next" onclick="showPage(3)">Continue</button>
-</div>
 
-<!-- Page 3 -->
-<div class="page" id="p3">
-<h1>You Matter To Me ❤️</h1>
-<p>
-Main nahi chahta ki meri wajah se tumhe kabhi lage  
-ki tum important nahi ho.  
-Tum ho. Aur hamesha rahogi.
-</p>
-<button class="yes" onclick="finalPage()">Give me one chance 💖</button>
+<button class="yes" onclick="accept()">Give me one chance 💖</button>
 <button class="no" id="noBtn" onmouseover="moveBtn()">Still angry 😒</button>
 </div>
 
-<script>
-function showPage(num){
-document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-document.getElementById('p'+num).classList.add('active');
-}
+<!-- Music -->
+<audio autoplay loop>
+<source src="song.mp3" type="audio/mpeg">
+</audio>
 
+<script>
+
+// Move No button
 function moveBtn(){
 let btn=document.getElementById("noBtn");
 btn.style.left=Math.random()*(window.innerWidth-120)+"px";
 btn.style.top=Math.random()*(window.innerHeight-60)+"px";
 }
 
-function finalPage(){
+// Final page
+function accept(){
 document.body.innerHTML=`
-<div style="display:flex;justify-content:center;align-items:center;height:100vh;text-align:center;background:black;color:white;font-size:24px;padding:20px;">
-💖 Thank you for giving me another chance.  
-I promise I’ll listen better, understand better, and value you always.
+<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:black;color:white;font-size:26px;text-align:center;padding:20px;">
+💖 Thank you… I promise I’ll value every word you say. Always.
 </div>`;
 }
+
+// Flying emojis generator
+const emojis=["💖","✨","🦋","🌸"];
+setInterval(()=>{
+let emoji=document.createElement("div");
+emoji.className="emoji";
+emoji.innerHTML=emojis[Math.floor(Math.random()*emojis.length)];
+emoji.style.left=Math.random()*100+"vw";
+emoji.style.animationDuration=(Math.random()*4+4)+"s";
+document.body.appendChild(emoji);
+setTimeout(()=>{emoji.remove()},6000);
+},400);
+
 </script>
 
 </body>
